@@ -1,3 +1,15 @@
+## Class: apt::mirror
+## Purpose: Configure apt-mirror
+## Parameters
+### base_path, mirror_path, skel_path, var_path: set different directory locations
+### mirror_path: set mirror path
+### cleanscript: cleanscript path
+### postmirror_script: path to postmirror script
+### defaultarch: default architecture
+### run_postmirror: whether to run postmirror or not
+### nthreads: number of threads for mirroring
+### tilde:
+
 class apt::mirror(
     $base_path         = '/var/spool/apt-mirror',
     $mirror_path       = '$base_path/mirror',
@@ -13,8 +25,22 @@ class apt::mirror(
 
   ## Install apt-mirror package
   package { 'apt-mirror':
-    ensure => installed,
+    ensure => present,
   }
 
+  ## Add base configuration in mirror.list
+
+  concat { '/etc/apt/mirror.list':
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => Package['apt-mirror'],
+  }
+
+  concat::fragment { "apt-mirror-${name}.conf":
+    target  => '/etc/apt/mirror.list',
+    order   => '1',
+    content => template('apt/mirror.list-base.erb'),
+  }
 }
 
