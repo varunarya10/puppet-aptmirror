@@ -26,8 +26,6 @@ describe 'apt::mirror', :type => :class do
 
   it {
     should contain_concat__fragment('apt-mirror-testname.conf').with_content("#### Managed by puppet, all local changes will be reverted ###\n############# config ##################\nset base_path         /apt-mirror\nset mirror_path       $base_path/mirror\nset skel_path         $base_path/skel\nset var_path          $base_path/var\nset cleanscript       $base_path/clean.sh\nset defaultarch       amd64\nset postmirror_script $var_path/postmirror.sh\nset run_postmirror    0\nset nthreads          10\nset _tilde            0\n############# end config ##############\n\n")
-#/#### Managed by puppet, all local changes will be reverted ###.*############# config ##################.*/)
-#set[\s\t]+base_path[\s\t]+/apt-mirror.*set[\s\t]+defaultarch\s+amd64.*set[\s\t]+nthreads[\s\t]+10.*############# end config ##############.*/ )
   }
 
 end
