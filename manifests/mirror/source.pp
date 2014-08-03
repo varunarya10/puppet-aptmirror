@@ -1,16 +1,45 @@
-## define: apt::mirror::source
-## Purpose: create apt mirror repo sources
-## Parameters
-### mirror_url: source repo url
-### release: Release name, default release name is $lsbdistcodename
-### components: Space separated list of component names
-### include_src: whther to mirror source packages or not
-### architecture: which architecture
-### clean: whther to clean the specifc repo source to free up the space.
+# This Create apt mirror repo sources
+#
+# == parameters
+#
+# [*mirror_url*]
+#   source repo url
+#
+# [ release ]
+#    Release name, default release is equal to $lsbdistcodename
+#
+# [ components ]
+#    Space separated list of component names
+#
+# [ include_src ]
+#    whther to mirror source packages or not
+#
+# [ architecture ]
+#    which architecture
+#
+# [ clean ]
+#    whther to clean the specifc repo source to free up the space.
+#
+# == Examples
+#
+#  ::apt::mirror::source { 'precise':
+#    mirror_url => 'http://archive.ubuntu.com/ubuntu',
+#    components => 'main restricted universe multiverse',
+#    include_src => true,
+#    clean => false,
+#  }
+#
+# == Authors
+#
+# Harish Kumar <hkumarmk@gmail.com>
+#
+# == Copyright
+#
+# Copyright 2011 Puppet Labs Inc, unless otherwise noted.
 
 define apt::mirror::source (
-  $mirror_url          = 'UNDEF',
-  $release           = 'UNDEF',
+  $mirror_url,
+  $release           = undef,
   $components        = 'main',
   $include_src       = true,
   $architecture      = undef,
@@ -18,22 +47,18 @@ define apt::mirror::source (
 ) {
 
   include apt::params
-  if $release == 'UNDEF' {
-    if $::lsbdistcodename == undef {
-      fail('lsbdistcodename fact not available: release parameter required')
-    } else {
-      $release_real = $::lsbdistcodename
-    }
-  } else {
+  if $release {
     $release_real = $release
-  }
-  if $mirror_url == 'UNDEF' {
-    warning('No Valid mirror mirror_url setup')
   } else {
-    concat::fragment { "apt-mirror-${name}.conf":
-      target  => '/etc/apt/mirror.list',
-      order   => '50',
-      content => template('apt/mirror.list-source.erb'),
+    if $::lsbdistcodename {
+      $release_real = $::lsbdistcodename
+    } else {
+      fail('lsbdistcodename fact not available: release parameter required')
     }
+  }
+  concat::fragment { "apt-mirror-${name}.conf":
+    target  => '/etc/apt/mirror.list',
+    order   => '50',
+    content => template('apt/mirror.list-source.erb'),
   }
 }
