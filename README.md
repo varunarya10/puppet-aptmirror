@@ -225,20 +225,20 @@ Sets apt-mirror source configuration
 
 # Mirror precise-udpates of 1386 architecture without source code.
     ::apt::mirror::source { 'precise-updates':
-  	mirror_url => 'http://archive.ubuntu.com/ubuntu',
-  	release => 'precise-updates',
-  	components => 'main restricted universe multiverse',
-  	include_src => false,
-  	architecture => i386,
-  	clean => true,
+  	mirror_url 	=> 'http://archive.ubuntu.com/ubuntu',
+  	release 	=> 'precise-updates',
+  	components 	=> 'main restricted universe multiverse',
+  	include_src	=> false,
+  	architecture 	=> i386,
+  	clean 		=> true,
     }
 
-# Mirror precise from archive.ubuntu.com with source code amd-64 architecture.
+# Mirror precise from archive.ubuntu.com with source code amd64 architecture.
     ::apt::mirror::source { 'precise':
-  	mirror_url => 'http://archive.ubuntu.com/ubuntu',
-  	components => 'main restricted universe multiverse',
-  	include_src => true,
-  	clean => false,
+  	mirror_url 	=> 'http://archive.ubuntu.com/ubuntu',
+  	components 	=> 'main restricted universe multiverse',
+  	include_src 	=> true,
+  	clean 		=> false,
     }
 
 ### Facts
