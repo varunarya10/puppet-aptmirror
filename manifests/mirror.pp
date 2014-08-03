@@ -1,14 +1,38 @@
-## Class: apt::mirror
-## Purpose: Configure apt-mirror
-## Parameters
-### base_path, mirror_path, skel_path, var_path: set different directory locations
-### mirror_path: set mirror path
-### cleanscript: cleanscript path
-### postmirror_script: path to postmirror script
-### defaultarch: default architecture
-### run_postmirror: whether to run postmirror or not
-### nthreads: number of threads for mirroring
-### tilde:
+# Install and configure apt-mirror
+#
+# == parameters
+#
+# [*mirror_url*]
+#   source repo url
+#
+# [ base_path, mirror_path, skel_path, var_path: ]
+#    Set different directory locations
+#
+# [ cleanscript ]
+#    Script to do clean
+#
+# [ postmirror_script ]
+#    path to postmirror script
+#
+# [ run_postmirror ]
+#    Whether to run postmirror script or not
+#
+# [ nthreads ]
+#    Number of threads.
+#
+# == Examples
+#
+#  class {'::apt::mirror':
+#    nthreads => 10,
+#  }
+#
+# == Authors
+#
+# Harish Kumar <hkumarmk@gmail.com>
+#
+# == Copyright
+#
+# Copyright 2011 Puppet Labs Inc, unless otherwise noted.
 
 class apt::mirror(
     $base_path         = '/var/spool/apt-mirror',
@@ -21,11 +45,12 @@ class apt::mirror(
     $run_postmirror    = '0',
     $nthreads          = '20',
     $_tilde            = '0',
+    $package_ensure    = present,
   ) {
 
   ## Install apt-mirror package
   package { 'apt-mirror':
-    ensure => present,
+    ensure => $package_ensure,
   }
 
   ## Add base configuration in mirror.list
