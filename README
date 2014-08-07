@@ -3,16 +3,16 @@ aptmirror
 Module to setup apt-mirror.
 
 
-### apt::mirror
+### aptmirror
 Installs apt-mirror and set base configuration.
   
-  class { apt::mirror': }
+  class { aptmirror': }
 
-### apt::mirror::source
+### aptmirror::source
 Sets apt-mirror source configuration
 
 # Mirror precise-udpates of 1386 architecture without source code.
-    ::apt::mirror::source { 'precise-updates':
+    ::aptmirror::source { 'precise-updates':
         mirror_url      => 'http://archive.ubuntu.com/ubuntu',
         release         => 'precise-updates',
         components      => 'main restricted universe multiverse',
@@ -22,7 +22,7 @@ Sets apt-mirror source configuration
     }
 
 # Mirror precise from archive.ubuntu.com with source code amd64 architecture.
-    ::apt::mirror::source { 'precise':
+    ::aptmirror::source { 'precise':
         mirror_url      => 'http://archive.ubuntu.com/ubuntu',
         components      => 'main restricted universe multiverse',
         include_src     => true,
