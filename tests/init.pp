@@ -1,1 +1,1 @@
-class { 'apt': }
+class { 'apt::mirror': }

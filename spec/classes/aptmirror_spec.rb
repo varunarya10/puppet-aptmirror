@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'apt::mirror', :type => :class do
+describe 'aptmirror', :type => :class do
   let(:file_mirror) { '/etc/apt/mirror.list' }
   let(:facts) { { :lsbdistid => 'Debian', :concat_basedir => '/tmp'  } }
   it { should contain_package("apt-mirror").with_ensure('present') }
